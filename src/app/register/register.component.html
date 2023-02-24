@@ -1,4 +1,6 @@
 <div class="ft">
+
+
     <div class=" mask d-flex align-items-center h-100 gradient-custom-3 my-5">
         <div class="container h-100">
             <div class="row d-flex justify-content-center align-items-center h-100">
@@ -7,63 +9,139 @@
                         <div class="card-body p-5">
                             <h2 class="text-uppercase text-center mb-5">Create an account</h2>
 
-                            <form>
+                            <form [formGroup]="register" #registerUser="ngForm" (ngSubmit)="getdata(registerUser)">
                                 <div class="row">
                                     <div class="col-md-6 mb-4">
 
                                         <div class="form-outline">
-                                            <input type="text" id="firstName" class="form-control form-control-lg" />
-                                            <label class="form-label" for="firstName">First Name</label>
-                                        </div>
+                                            <input type="text" class="form-control form-control-lg" name="fname" ngmodel
+                                                formControlName="fname" />
+                                            <label class="form-label" for="fname">First Name</label>
+                                            <div *ngIf="fname?.invalid && (fname?.dirty || fname?.touched)"
+                                                class="alert alert-danger">
+                                                <div *ngIf="fname?.errors?.['pattern']">
+                                                    Please enter valid username
+                                                </div>
+                                                <div *ngIf="fname?.errors?.['required']">
+                                                    Name is required.
+                                                </div>
+                                                <div *ngIf="fname?.errors?.['minlength']">
+                                                    Name must be at least 4 characters long.
+                                                </div>
+                                            </div>
 
+
+
+                                        </div>
                                     </div>
+
+
                                     <div class="col-md-6 mb-4">
 
                                         <div class="form-outline">
-                                            <input type="text" id="lastName" class="form-control form-control-lg" />
-                                            <label class="form-label" for="lastName">Last Name</label>
-                                        </div>
+                                            <input type="text" class="form-control form-control-lg" name="lname" ngmodel
+                                                formControlName="lname" />
+                                            <label class="form-label" for="lname">Last Name</label>
+                                            <div *ngIf="lname?.invalid && (lname?.dirty || lname?.touched)"
+                                                class="alert alert-danger">
+                                                <div *ngIf="lname?.errors?.['pattern']">
+                                                    Please enter valid lastname
+                                                </div>
+                                                <div *ngIf="lname?.errors?.['required']">
+                                                    Last name is required.
+                                                </div>
+                                                <div *ngIf="lname?.errors?.['minlength']">
+                                                    Last name must be at least 4 characters long.
+                                                </div>
+                                            </div>
 
+                                        </div>
+                                    </div>
+
+                                    <div class="form-outline mb-4">
+                                        <input type="text" class="form-control form-control-lg" name="mobile" ngmodel
+                                            formControlName="number" />
+                                        <label class="form-label" for="number">Phone number</label>
+                                        <div *ngIf="number?.invalid && (number?.dirty || number?.touched)"
+                                            class="alert alert-danger">
+                                            <div *ngIf="number?.errors?.['pattern']">
+                                                Please enter valid mobile number
+                                            </div>
+                                            <div *ngIf="number?.errors?.['required']">
+                                                Mobile number is required.
+                                            </div>
+                                            <div *ngIf="number?.errors?.['minlength']">
+                                                Mobile number must be 10 characters long.
+                                            </div>
+                                            <div *ngIf="number?.errors?.['maxlength']">
+                                                Mobile number must be 10 characters long.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-outline mb-4">
+                                        <input type="email" class="form-control form-control-lg" name="email" ngmodel
+                                            formControlName="email" />
+                                        <label class="form-label" for="form3Example3cg">Your Email</label>
+                                        <div *ngIf="email?.invalid && (email?.dirty || email?.touched)"
+                                            class="alert alert-danger">
+                                            <div *ngIf="email?.errors?.['pattern']">
+                                                Please enter valid email
+                                            </div>
+                                            <div *ngIf="email?.errors?.['required']">
+                                                Email is required.
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="form-outline mb-4">
+                                        <input type="password" class="form-control form-control-lg" name="password"
+                                            ngmodel formControlName="password" />
+                                        <label class="form-label" for="form3Example4cg">Password</label>
+
+                                        <div *ngIf="password?.invalid && (password?.touched)"
+                                            class="alert alert-danger">
+                                            <div *ngIf="password?.errors?.['pattern']">
+                                                Please enter valid password
+                                            </div>
+                                            <div *ngIf="password?.errors?.['required']">
+                                                Password is required.
+                                            </div>
+                                            <div *ngIf="password?.errors?.['minlength']">
+                                                Password must be at least 6 characters long.
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-outline mb-4">
+                                        <input type="password" class="form-control form-control-lg" (input)="setvalid()"
+                                            name="cpassword" formControlName="cpassword" />
+                                        <label class="form-label" for="form3Example4cdg">Confirm your
+                                            password</label>
+                                        <div *ngIf="cpassword?.invalid && (cpassword?.dirty || cpassword?.touched)"
+                                            class="alert alert-danger">
+                                            <div *ngIf="cpassword?.errors?.['pattern']">
+                                                Please enter valid confirm password
+                                            </div>
+                                            <div *ngIf="cpassword?.errors?.['required']">
+                                                Confirm password is required.
+                                            </div>
+
+                                        </div>
+                                        <div class="alert alert-danger" *ngIf="valid==false">
+                                            Password should be same
+                                        </div>
+                                    </div>
+
+
+                                    <div class="d-flex justify-content-center">
+
+                                        <button type="submit" [disabled]="register.invalid"
+                                            class="btn btn-primary  btn-lg  text-white">Register</button>
                                     </div>
                                 </div>
-
-                                <div class="form-outline mb-4">
-                                    <input type="number" id="form3Example3cg" class="form-control form-control-lg" />
-                                    <label class="form-label" for="form3Example3cg">Phone number</label>
-                                </div>
-                                <div class="form-outline mb-4">
-                                    <input type="email" id="form3Example3cg" class="form-control form-control-lg" />
-                                    <label class="form-label" for="form3Example3cg">Your Email</label>
-                                </div>
-
-
-
-                                <div class="form-outline mb-4">
-                                    <input type="password" id="form3Example4cg" class="form-control form-control-lg" />
-                                    <label class="form-label" for="form3Example4cg">Password</label>
-                                </div>
-
-                                <div class="form-outline mb-4">
-                                    <input type="password" id="form3Example4cdg" class="form-control form-control-lg" />
-                                    <label class="form-label" for="form3Example4cdg">Confirm your password</label>
-                                </div>
-
-                                <!-- <div class="form-check d-flex justify-content-center mb-5">
-                                    <input class="form-check-input me-2" type="checkbox" value=""
-                                        id="form2Example3cg" />
-                                    <label class="form-check-label" for="form2Example3g">
-                                        I agree all statements in <a href="#!" class="text-body"><u>Terms of
-                                                service</u></a>
-                                    </label>
-                                </div> -->
-
-                                <div class="d-flex justify-content-center">
-
-                                    <button type="button" class="btn btn-primary  btn-lg  text-white">Register</button>
-                                </div>
-                                <!-- 
-                                <p class="text-center text-muted mt-5 mb-0">Have already an account? <a href="#!"
-                                        class="fw-bold text-body"><u>Login here</u></a></p> -->
 
                             </form>
 

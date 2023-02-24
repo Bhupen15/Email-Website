@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+
 
 @Component({
   selector: 'app-header',
@@ -8,4 +10,32 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent {
 
+  path: any;
+  constructor(private toastr: ToastrService,  private router: Router) {
+
+  }
+
+  ngOnInit(): void {
+
+    this.router.events.subscribe((val: any) => {
+      if (val.url) {
+        this.path = val.url;
+      }
+
+    })
 }
+
+
+logout(){
+
+localStorage.removeItem("session");
+this.router.navigateByUrl('/login');
+this.toastr.success('Logged out successfully');
+
+}
+}
+
+
+
+
+
