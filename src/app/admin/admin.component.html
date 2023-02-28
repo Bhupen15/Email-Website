@@ -52,21 +52,23 @@
 
 
         <!-- Modal -->
-        <!-- <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Do you really want to delete</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Do you really want to delete</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
+                            (click)="userdelete()">Delete</button>
+                    </div>
+                </div>
+            </div>
         </div>
-       
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="deleteUser()">Delete</button>
-        </div>
-      </div>
-    </div>
-  </div> -->
+
 
         <!-- Main Content -->
         <div id="content">
@@ -188,10 +190,8 @@
 
                     </div> -->
                     <!-- #filterdata="ngForm" (ngSubmit)="filter(filterdata.value) -->
-                    <form>
+                    <form #formData="ngForm" (ngSubmit)="filterData(formData)">
                         <div class="row mb-3 mt-3 f-form-row">
-
-
                             <div class="col-md-4">
                                 <input type="text" class="form-control" name="name" ngModel placeholder="Name">
                             </div>
@@ -204,20 +204,13 @@
                                 <input type="text" class="form-control" name="mobile" ngModel
                                     placeholder="Phone Number">
                             </div>
-
-
-
-
-
                         </div>
-
                         <div class="row mb-3">
 
                             <div class="col-md-6">
-                                <button type="submit" class="btn btn-primary">Search</button>
+                                <button type="submit" class="btn btn-primary ">Search</button>
+                                <button type="submit" class="btn btn-primary ">Reset</button>
                             </div>
-
-
                         </div>
                     </form>
 
@@ -234,7 +227,7 @@
 
 
 
-                        <table class="table">
+                        <table class="table table-responsive">
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
@@ -266,8 +259,9 @@
                                         <button class="btn btn-info">Make Admin </button>
                                     </td> -->
                                     <td *ngIf="user?.role!=='1'">
-                                        <button type="button" class="btn btn-info" data-bs-toggle="modal"
-                                            data-bs-target="#exampleModal">
+                                        <button type="button" class="btn btn-info" (click)="setUser(user,user.sno)"
+                                            data-bs-toggle="modal" data-bs-target="#detailsModal">
+
                                             Details
                                         </button>
                                     </td>
@@ -279,7 +273,7 @@
                                     </td>
                                     <td *ngIf="user?.role!=='1'">
                                         <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                                            data-bs-target="#exampleModal" (click)="userdelete(user?.sno)">
+                                            data-bs-target="#deleteModal" (click)="setDelId(user?.sno)">
                                             Delete
                                         </button>
                                     </td>
@@ -333,28 +327,87 @@
                 </div>
                 <!--close-table-sec-->
 
-
-
             </div>
             <!--Close-home-Page-Content -->
-
         </div>
-
     </div>
 </div>
 
 
 <!--Close-Page-Wrapper -->
 
-<script src="../../assets/js/bootstrap.bundle.js"></script>
-<script src="../../assets/js/sidebars.js"></script>
-<script>
-    function toggle() {
-        var element = document.getElementById("accordionSidebar");
-        var body = document.getElementById("body");
-        element.classList.toggle("toggled");
-        body.classList.toggle("sidebar-toggled");
 
+<!-- Modal -->
+<div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">{{loanValues?.fname + " " + loanValues?.lname}}
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table style="margin: auto;">
+                    <tr class='mt-2'>
+                        <td class="col-md-5 mx-4">Loan Id : {{loanValues?.loanid}}</td>
+                    </tr>
+                    <tr class='mt-2'>
+                        <td class="col-md-5 mx-4">First Name : {{loanValues?.fname}}</td>
+                        <td class="col-md-5 mx-4">Last Name : {{loanValues?.lname}}</td>
+                    </tr>
+                    <tr class='mt-2'>
+                        <td class="col-md-5 mx-4">Email : {{loanValues?.email}}</td>
+                        <td class="col-md-5 mx-4">Mobile : {{loanValues?.mobile}}</td>
+                    </tr>
+                    <tr class='mt-2'>
+                        <td class="col-md-5 mx-4">Gender : {{loanValues?.gender}}</td>
+                        <td class="col-md-5 mx-4">PAN Number : {{loanValues?.pan}} </td>
+                    </tr>
+                    <tr class='mt-2'>
+                        <td class="col-md-5 mx-4">Aadhar Number : {{loanValues?.aadhar}}</td>
+                    </tr>
+                    <tr class='mt-2'>
+                        <td class="col-md-5 mx-4">Profession : {{loanValues?.profession}}</td>
+                        <td class="col-md-5 mx-4">Annual Income : {{loanValues?.income}}</td>
+                    </tr>
+                    <tr class='mt-2'>
+                        <td class="col-md-5 mx-4">Loan Amount : {{loanValues?.loanamount}}</td>
+                        <td class="col-md-5 mx-4">Duration(in months) : {{loanValues?.duration}}</td>
+                    </tr>
+                    <tr class='mt-2'>
+                        <td class="col-md-5 mx-4">Address : {{loanValues?.address1 + ", " + loanValues?.address2 + ", "
+                            + loanValues?.place
+                            +
+                            ", " +
+                            loanValues?.country}}</td>
+                        <td class="col-md-5 mx-4">Pincode : {{loanValues?.pincode}}</td>
+                    </tr>
+                    <tr class='mt-2'>
+                        <td class="col-md-5 mx-4">Remark : </td>
+                        <td class="col-md-5 mx-4"><input (change)="editRemark($event)" value={{loanValues?.remark}}
+                                name="remark" type="textarea" />
+                        </td>
+                        <td class="col-md-5 mx-4"><Button (click)="updateremark()"
+                                class=" btn btn-warning">Update</Button></td>
+                    </tr>
+                    <tr>
 
-    }
-</script>
+                        <td class="col-md-5 mx-4" style="color:green" *ngIf="loanValues?.status === '1'">Status : You
+                            approved the Loan</td>
+                        <td class="col-md-5 mx-4" style="color:red" *ngIf="loanValues?.status === '0'">Status : You
+                            rejected the Loan</td>
+                        <td class="col-md-5 mx-4" style="color:rgb(180, 180, 14)" *ngIf="loanValues?.status === null">
+                            Status : Pending</td>
+                        <td class="col-md-5 mx-4" *ngIf="data?.status === null">
+                            <Button class=" btn btn-success mx-3" (click)="updateremark()">Approve</Button>
+                            <Button class=" btn btn-danger" (click)="updateremark()">Reject</Button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

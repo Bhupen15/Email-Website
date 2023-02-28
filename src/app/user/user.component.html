@@ -1,53 +1,54 @@
-
-
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
-rel="stylesheet">
+    rel="stylesheet">
 <div class='body'>
     <h1>User</h1>
 
-<section class="step-wizard">
-    <ul class="step-wizard-list"> 
-        <li class="step-wizard-item ">
-            <span class="progress-count">1</span>
-            <span class="progress-label">Registration</span>
-        </li>
-        <li [ngClass]="loanValues?.id?'step-wizard-item':'step-wizard-item current-item'">
-            <span class="progress-count">2</span>
-            <span class="progress-label">Apply Loan</span>
-        </li>
-        <li class="step-wizard-item current-item" *ngIf="loanValues?.status === null || !loanValues.id">
-            <span class="progress-count">3</span>
-            <span class="progress-label">Approve/Reject</span>
-        </li>
-        <li class="step-wizard-item" *ngIf="loanValues?.status === '0'">
-            <span class="progress-count">3</span>
-            <span class="progress-label">Rejected</span>
-        </li>
-        <li  class="step-wizard-item" *ngIf="loanValues?.status === '1'">
-            <span class="progress-count">3</span>
-            <span class="progress-label">Approved</span>
-        </li>
-    </ul>
-</section>
+    <section class="step-wizard">
+        <ul class="step-wizard-list">
+            <li class="step-wizard-item ">
+                <span class="progress-count">1</span>
+                <span class="progress-label">Registration</span>
+            </li>
+            <li [ngClass]="loanValues?.sno?'step-wizard-item':'step-wizard-item current-item'">
+                <span class="progress-count">2</span>
+                <span class="progress-label">Apply Loan</span>
+            </li>
+            <li class="step-wizard-item current-item" *ngIf="loanValues?.status === null || !loanValues.sno">
+                <span class="progress-count">3</span>
+                <span class="progress-label">Approve/Reject</span>
+            </li>
+            <li class="step-wizard-item" *ngIf="loanValues?.status === '0'">
+                <span class="progress-count">3</span>
+                <span class="progress-label">Rejected</span>
+            </li>
+            <li class="step-wizard-item" *ngIf="loanValues?.status === '1'">
+                <span class="progress-count">3</span>
+                <span class="progress-label">Approved</span>
+            </li>
+        </ul>
+    </section>
     <p *ngIf="isPresent; then loandetails else loanapply"></p>
 
     <ng-template #loandetails>
         <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#gunjan">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#bhupendra">
             Loan Details
         </button>
     </ng-template>
     <ng-template #loanapply>
         <a class='btn btn-primary' routerLink="/apply">Apply Loan</a>
     </ng-template>
+    
+        <button class='btn btn-primary m-2 p-2' (click)="visible=true" >Pay EMI</button>
+
 
     <!-- Modal -->
-    <div *ngIf="loanValues" class="modal fade" id="gunjan" tabindex="-1" aria-labelledby="exampleModalLabel"
+    <div *ngIf="loanValues" class="modal fade" id="bhupendra" tabindex="-1" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">{{loanValues.firstname + " " + loanValues.lastname}}
+                    <h5 class="modal-title" id="exampleModalLabel">{{loanValues.fname + " " + loanValues.lname}}
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -57,8 +58,8 @@ rel="stylesheet">
                             <td>Loan Id : {{loanValues.loanid}}</td>
                         </tr>
                         <tr class='mt-2'>
-                            <td>First Name : {{loanValues.firstname}}</td>
-                            <td>Last Name : {{loanValues.lastname}}</td>
+                            <td>First Name : {{loanValues.fname}}</td>
+                            <td>Last Name : {{loanValues.lname}}</td>
                         </tr>
                         <tr class='mt-2'>
                             <td>Email : {{loanValues.email}}</td>
@@ -80,7 +81,8 @@ rel="stylesheet">
                             <td>Duration(in months) : {{loanValues.duration}}</td>
                         </tr>
                         <tr class='mt-2'>
-                            <td>Address : {{loanValues.address1 + ", " + loanValues.address2 + ", " + loanValues.place
+                            <td>Address : {{loanValues.address1 + ", " + loanValues.address2 + ", " +
+                                loanValues.place
                                 +
                                 ", " +
                                 loanValues.country}}</td>
@@ -106,6 +108,46 @@ rel="stylesheet">
             </div>
         </div>
     </div>
+    <table class="table table-responsive" *ngIf="visible">
+        <thead>
+            <tr>
+                <th scope="col">S.No</th>
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Date</th>
+                <th scope="col">Monthly EMI</th>
+                <th scope="col">Annual EMI</th>
+                <th scope="col"> Status</th>
+                <th scope="col"> Action</th>
+                
+    
+            </tr>
+        </thead>
+        <tbody>
+            <tr >
+                <th scope="row">
+                    {{1}}
+                </th>
+                <td>{{loanValues?.fname}}{{" "}}{{loanValues?.lname}}</td>
+                <td>{{loanValues?.email}}</td>
+                <td>{{date}}</td>
+                <td>{{emiResponse?.monthly_payment.total}}</td>
+                <td>{{emiResponse?.annual_payment.total}}</td>
+                <td>unpaid</td>
+                
+                <td >
+                    <button type="button" class="btn btn-info">
+    
+                        Pay Now
+                    </button>
+                </td>
+                
+    
+            </tr>
+    
+        </tbody>
+    </table>
 </div>
+
 
 

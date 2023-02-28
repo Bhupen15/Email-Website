@@ -1,7 +1,7 @@
 export interface loanData {
     loanid: string,
-    firstname: string,
-    lastname: string,
+    fname: string,
+    lname: string,
     email: string,
     gender: string,
     aadhar: string,
@@ -18,5 +18,5 @@ export interface loanData {
     mobile: string,
     status: string,
     remark: string,
-    id: string,
+    sno: string,
 }

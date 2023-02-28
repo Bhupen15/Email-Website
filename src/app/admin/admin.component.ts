@@ -2,6 +2,7 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { loanData } from '../interface';
 import { AuthserviceService } from '../authservice.service';
+import { NgForm } from '@angular/forms';
 
 
 @Component({
@@ -11,9 +12,12 @@ import { AuthserviceService } from '../authservice.service';
   // encapsulation:ViewEncapsulation.None
 })
 export class AdminComponent {
+  loanValues: any | loanData;
   pageSet(totalPage: any) {
     throw new Error('Method not implemented.');
   }
+
+
 
   hello(b: number) {
     this.page = b;
@@ -30,57 +34,159 @@ export class AdminComponent {
   page = 1;
   totalPage: any;
   totalUser: any;
-  userRows: any;
+  userRows: any = {};
   userData: any;
   pageArray: number[] = [];
-  
-  Obj=localStorage.getItem('session') as string;
-  id=JSON.parse(this.Obj)?.id;
+  delId: any = 0;
+  modalId: any;
+  query: string = "";
+  remark: string = "";
+
+
+
+  Obj = localStorage.getItem('session') as string;
+  id = JSON.parse(this.Obj)?.id;
 
   constructor(private authService: AuthserviceService, private toastr: ToastrService) {
     this.loadUser();
   }
 
   loadUser = () => {
-    this.authService.getAlluser(this.page, this.pageLimit).subscribe((res: any) => {
+    this.authService.getAlluser(this.page, this.pageLimit, this.query).subscribe((res: any) => {
       console.log(res)
       this.data = res.messages.data;
       this.totalPage = res.messages.totalPages;
-      
+
       this.pageArray = Array(this.totalPage).fill(0).map((x, i) => i + 1);
 
 
     })
+
   }
 
-//   userdelete = (sno: string) => {
-//     if (this.authService.userDelete(sno))  {
-   
-//      {
-    
-//       this.loadUser().subscribe((res: any) => setUsers(res.data.messages.data));
-//       this.toastr.success('User Deleted');
+  setDelId = (id: any) => {
 
-//     }
-//     else {
-//       this.toastr.error('Error in Deletion');
-//     }
-//   }
+    this.delId = id;
+  }
 
-// }
-
-// function setUsers(data: any) {
-//   throw new Error('Function not implemented.');
-// }
+  userdelete = () => {
 
 
-userdelete = (id:any) => {
+    this.authService.userDel(this.delId).subscribe(res => {
+      console.log(res);
 
-
-  this.authService.userDel(id).subscribe(res => {
-    console.log(res);
+    })
     this.loadUser();
-  })
+    this.delId = 0;
 
-}
+  }
+
+  userLoanDetail = () => {
+
+    let data = {
+      "id": this.userData.id
+    };
+
+    //   this.authService.LoanListData(data).subscribe((res: any) => {
+    //          this.loanValues=res;
+    //  console.log(this.loanValues,"jkcehghyjewgjkqwdjkl");
+
+    //   })
+
+
+
+  }
+
+  userId: any = 0;
+  setUserid(id: any) {
+    this.userId = id;
+  }
+
+  editStatus = (stat: number) => {
+    let data = {
+      "status": stat,
+      "id": this.userData.id
+    };
+    this.authService.editStatus(data).subscribe(async (res: any) => {
+      const status = res.success;
+      console.log(res);
+      if (status && stat === 1) {
+        this.toastr.success('Loan Approved');
+      }
+      else if (status && stat === 0) {
+        this.toastr.error('Loan Rejected');
+      }
+      else {
+        this.toastr.error('Error occured');
+        console.log(res.error);
+      }
+      (await this.authService.loanDataById(this.userData.id)).subscribe(res => {
+        this.userData = res;
+
+      })
+      this.loadUser();
+    })
+  }
+  setUser = async (row: object, id: any) => {
+
+    // console.log("SNigdh")
+    this.loanValues = null;
+    this.setUserid(id);
+    this.userData = row;
+    console.log(this.userId);
+
+    // this.setDelId(this.userData.sno);
+    // this.userLoanDetail();
+    (await this.authService.LoanListData(this.userData.sno)).subscribe((res: any) => {
+      this.loanValues = res;
+
+
+    })
+  }
+  editRemark(event: any) {
+    this.remark = event.target.value;
+  }
+
+  updateremark = () => {
+    let data = {
+      "remark": this.remark,
+      "sno": this.userData.sno
+    };
+    // console.log(data)
+    this.authService.editRemark(data).subscribe(async (res) => {
+
+      console.log(res)
+      const status = res.success;
+
+      if (status) {
+        this.toastr.success('Remark updated')
+      }
+      else {
+        this.toastr.error('Error occured');
+        console.log(res.error);
+      }
+      (await this.authService.loanDataById(this.userData.sno)).subscribe(res => {
+        this.userData = res;
+      })
+    })
+  }
+
+  filterData = (query1: NgForm) => {
+    let data = query1.value;
+    let keys = Object.keys(data);
+    let values = Object.values(data);
+    this.query = ""
+    for (let i in values) {
+      if (values[i] !== "")
+        this.query += keys[i] + "=" + values[i] + "&";
+    }
+    this.query = this.query.substring(0, this.query.length - 1);
+    this.loadUser();
+    console.log(this.query);
+
+
+
+
+  }
+
 }
