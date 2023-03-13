@@ -17,7 +17,7 @@ export class RegisterComponent {
   register = new FormGroup({
     fname: new FormControl('', [Validators.required, Validators.minLength(4), Validators.pattern('[a-zA-Z0-9]+([._]?[a-zA-Z0-9]+)*')]),
     lname: new FormControl('', [Validators.required, Validators.minLength(4), Validators.pattern('[a-zA-Z0-9]+([._]?[a-zA-Z0-9]+)*')]),
-    number: new FormControl('', [Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]),
+    // number: new FormControl('', [Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')]),
     email: new FormControl('', [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}')]),
     password: new FormControl('', [Validators.required, Validators.minLength(6), Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')]),
     cpassword: new FormControl('', [Validators.required])
@@ -25,7 +25,7 @@ export class RegisterComponent {
 
   get fname() { return this.register.get('fname'); }
   get lname() { return this.register.get('lname'); }
-  get number() { return this.register.get('number'); }
+  // get number() { return this.register.get('number'); }
   get email() { return this.register.get('email'); }
   get password() { return this.register.get('password'); }
   get cpassword() { return this.register.get('cpassword'); }
@@ -36,6 +36,10 @@ export class RegisterComponent {
 
   ngOnInit() {
     this.valid = true;
+   
+
+      localStorage.clear();
+    
   }
 
 
@@ -56,7 +60,7 @@ export class RegisterComponent {
   }
 
   click=()=>{
-    this.router.navigate(['login']);
+    this.router.navigate(['/']);
     this.toastr.success('User registered successful');
   }
   setvalid = () => {

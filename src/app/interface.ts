@@ -1,22 +1,13 @@
-export interface loanData {
-    loanid: string,
-    fname: string,
-    lname: string,
-    email: string,
-    gender: string,
-    aadhar: string,
-    pan: string,
-    profession: string,
-    income: string,
-    loanamount: string,
-    duration: string,
-    address1: string,
-    address2: string,
-    pincode: string,
-    place: string,
-    country: string,
-    mobile: string,
-    status: string,
-    remark: string,
+export interface emailData {
+
     sno: string,
+    senderId: string,
+    receiverId: string,
+    subject: string,
+    message: string,
+    status: string,
+    date: string,
+    file: string,
+    email: string
+
 }

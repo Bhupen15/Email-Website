@@ -1,0 +1,71 @@
+<div class="container-fluid">
+    <div class="row flex-nowrap">
+        <div class="col-auto col-md-3 col-xl-2  px-0 bg-info">
+            <div class="d-flex flex-column align-items-center align-items-sm-start  pt-2 text-white min-vh-100">
+
+                <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start w-100 wd"
+                    id="menu">
+
+                    <li class="nav-item bg-primary ">
+                        <a class="nav-link align-middle px-0">
+                            <!-- <span class="ms-1  d-sm-inline  side " onclick="">Compose</span> -->
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Compose</button>
+
+
+                        </a>
+                    </li>
+                    
+                    <li class="nav-item bg-primary ">
+                        <a class="nav-link align-middle px-0">
+                            <span class="ms-1  d-sm-inline  side " routerLink="/inbox">Inbox</span>
+                        </a>
+                    </li>
+                    <li class="nav-item bg-primary">
+                        <a class="nav-link align-middle px-0">
+                            <span class="ms-1  d-sm-inline  side" routerLink="/sentitem">Sent</span>
+                        </a>
+                    </li>
+
+                </ul>
+                <hr>
+            </div>
+        </div>
+
+       
+ 
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">New mail</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="mb-3">
+              <label for="recipient-name" class="col-form-label">To:</label>
+              <input type="text" class="form-control" id="recipient-name">
+            </div>
+            <div class="mb-3">
+              <label for="message-text" class="col-form-label">Subject:</label>
+              <textarea class="form-control" id="message-text"></textarea>
+            </div>
+            <div class="mb-3">
+              <label for="message-text" class="col-form-label">Message:</label>
+              <textarea class="form-control" id="message-text"></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="message-text" class="col-form-label">Attachement:</label>
+                <input type="file" name="file" class="form-control" id="file">
+
+                
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" type="submit" class="btn btn-primary">Send mail</button>
+        </div>
+      </div>
+    </div>
+  </div>

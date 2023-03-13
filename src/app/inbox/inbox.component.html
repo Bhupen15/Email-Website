@@ -1,0 +1,103 @@
+<div class="container-fluid">
+  <div class="row flex-nowrap">
+    <div class="col-auto col-md-3 col-xl-2  px-0 bg-info">
+      <div class="d-flex flex-column align-items-center align-items-sm-start  pt-2 text-white min-vh-100">
+
+        <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start w-100 wd"
+          id="menu">
+
+          <li class="nav-item bg-primary ">
+            <a class="nav-link align-middle px-0">
+              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                data-bs-whatever="@mdo">Compose</button>
+            </a>
+          </li>
+          <li class="nav-item bg-primary ">
+            <a class="nav-link align-middle px-0">
+              <span class="ms-1  d-sm-inline  side " routerLink="/inbox">Inbox</span>
+            </a>
+          </li>
+          <li class="nav-item bg-primary">
+            <a class="nav-link align-middle px-0">
+              <span class="ms-1  d-sm-inline  side" routerLink="/sentitem">Sent</span>
+            </a>
+          </li>
+
+        </ul>
+        <hr>
+      </div>
+    </div>
+
+    <div class="col py-3  bg-dark">
+      <div class="card-body m-2 p-2 fw-bold form-control" *ngFor="let mails of loanValues">
+        <h5 class="card-title">{{mails?.receiverId}}</h5>
+        <p class="card-text">Subject: {{mails?.subject}}</p>
+        <p class="card-text">Message: {{mails?.message}}</p>
+        <!-- <p class="card-text">File: {{mails?.file}}</p> -->
+
+        <p>  <a  href="{{mails?.file}}" target="_blank" rel="noopener noreferrer"> Click here to see</a>
+
+        </p>
+        <p class="card-text"><small class="text-muted">Receiving Date: {{mails?.date}}</small></p>
+
+      </div>
+
+      <!-- <div class="card-body m-2 p-2 fw-bold form-control" *ngFor="let mails of loanValues">
+        <h5 [ngClass]="checkStatus(mails?.status)?'text-muted':'card-text fw-bold'"  class="card-title" >{{mails?.senderId}}</h5>
+        <p [ngClass]="checkStatus(mails?.status)?'text-muted':'card-text fw-bold'">Subject: {{mails?.subject}}</p>
+        <p [ngClass]="checkStatus(mails?.status)?'text-muted':'card-text fw-bold'">Message: {{mails?.message}}</p>
+        <p [ngClass]="checkStatus(mails?.status)?'text-muted':'card-text fw-bold'">File: {{mails?.file}}</p>
+        <p><small [ngClass]="checkStatus(mails?.status)?'text-muted':'card-text fw-bold'">Receiving Date: {{mails?.date}}</small></p>
+
+      </div> -->
+    </div>
+
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">New email</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form [formGroup]="composeEmail" (ngSubmit)="getdata($event)">
+
+              <div class="mb-3">
+                <label for="recipient-name" class="col-form-label">To:</label>
+                <input type="email" class="form-control" id="recipient-name" name="email" formControlName="email">
+                <div *ngIf="email?.invalid && (email?.dirty || email?.touched)" class="alert alert-danger">
+                  <div *ngIf="email?.errors?.['pattern']">
+                    Please enter valid email
+                  </div>
+                  <div *ngIf="email?.errors?.['required']">
+                    Email is required.
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label for="message-text" class="col-form-label">Subject:</label>
+                  <textarea class="form-control" id="message-text" name="subject" formControlName="subject"></textarea>
+                </div>
+                <div class="mb-3">
+                  <label for="message-text" class="col-form-label">Message:</label>
+                  <textarea class="form-control" id="message-text" name="message" formControlName="message"></textarea>
+                </div>
+                <div class="mb-3">
+                  <label for="message-text" class="col-form-label">Upload file:</label>
+                  <input type="file" name="file" class="form-control" id="file" name="file" formControlName="file">
+
+
+                </div>
+                <button type="button" class="btn btn-secondary " data-bs-dismiss="modal">Close</button>
+                <button type="button" type="submit" [disabled]="composeEmail.invalid" class="btn btn-primary">Send
+                  email</button>
+              </div>
+            </form>
+
+            <div class="modal-footer">
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>

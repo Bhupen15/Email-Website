@@ -14,6 +14,10 @@ export class LoginComponent {
 
   constructor(private toastr: ToastrService, private authService: AuthserviceService, private router: Router) { }
 
+  ngOnInit() {
+
+    localStorage.clear();
+  }
 
   login = new FormGroup({
 
@@ -36,39 +40,24 @@ export class LoginComponent {
         console.log(response)
 
         const success = response.messages.success;
-        const token = response.messages.token;
+        // const token = response.messages.token;
         if (success) {
 
-          const role = response.messages.role;
+          // const role = response.messages.role;
+          console.log(response.messages.sno);
           const id = response.messages.sno;
           console.log(id);
           let session = {
             id: id,
-            role: role,
+
           }
           localStorage.setItem("session", JSON.stringify(session));
-          localStorage.setItem("token", JSON.stringify(token));
-
-          // toast.success("login successful");
+          // localStorage.setItem("token", JSON.stringify(token));
 
 
-          if (role === '1') {
+          this.router.navigateByUrl('inbox');
+          this.toastr.success('login successful');
 
-            this.router.navigateByUrl('admin');
-            this.toastr.success('login successful');
-          }
-
-
-
-          else if (role === '0') {
-
-            this.router.navigateByUrl('user');
-            this.toastr.success('login successful');
-
-          }
-          else {
-            this.toastr.error('Please enter valid password');
-          }
 
         }
         else {
