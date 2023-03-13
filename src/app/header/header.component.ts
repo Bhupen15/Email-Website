@@ -27,10 +27,34 @@ export class HeaderComponent {
 
 
 logout(){
-alert("Do you want to logout");
-localStorage.clear();
-this.router.navigateByUrl('/');
-this.toastr.success('Logged out successfully');
+//  confirm("Do you want to logout");
+
+
+ var ask = window.confirm("Do you want to logout");
+ if (ask) {
+    // console.log("ok clicked");
+    localStorage.clear();
+    this.router.navigateByUrl('/');
+    this.toastr.success('Logged out successfully');
+ }
+ else {
+  console.log("router url",this.router.url);
+  
+    // console.log("cancel clicked");
+    this.router.navigateByUrl(this.router.url);
+ }
+
+
+
+// let status = document.getElementById("content");  
+// if (a == true) {  
+//  status.innerHTML = "ok";  
+// } else {  
+//  status.innerHTML = "Cancel";  
+// }  
+// localStorage.clear();
+// this.router.navigateByUrl('/');
+// this.toastr.success('Logged out successfully');
 
 }
 }
